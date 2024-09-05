@@ -3,6 +3,9 @@ A very simple, naive, and basic web scraping script. This will not
 work completely and is only applicable to domain.com.
 
 Feel free to use this as a source of inspiration, it is by no means production code.
+
+Edited and Debugged with ChatGPT
+
 """
 # built-in imports
 import re
@@ -64,12 +67,49 @@ for property_url in pbar:
         property_metadata[property_url]['cost_text'] = bs_object \
             .find("div", {"data-testid": "listing-details__summary-title"}) \
             .text
+        
+        property_metadata[property_url]['prop_type'] = bs_object \
+            .find("div", {"data-testid": "listing-summary-property-type"}) \
+            .text
 
         # get rooms and parking
         rooms = bs_object \
                 .find("div", {"data-testid": "property-features"}) \
                 .findAll("span", {"data-testid": "property-features-text-container"})
 
+        # Additional features info... 
+        add_features = bs_object \
+            .find("div", {"data-testid": "listing-details__additional-features"}) \
+            .findAll("li", {"data-testid": "listing-details__additional-features-listing"})
+        property_metadata[property_url]['additional_features'] = [feature.text for feature in add_features]
+
+        # Property description
+        prop_desc = bs_object \
+            .find("div", {"data-testid": "listing-details__description"}) \
+            .findAll("p")
+        property_metadata[property_url]['description'] = "\n".join([p.text for p in prop_desc])
+
+        # Close schools... (For Government...) + Their distance from the house... 
+        # (+ other features, eg priv, junior, high, coed etc)
+
+        """
+        There is an issue here... 
+        just scraping the government schools rather than government and independent schools 
+        """
+
+        schools_info = []
+
+        schools = bs_object \
+            .findAll("div", {"data-testid": "fe-co-school-catchment-content"}) 
+
+        for school_types in schools:
+            school_types = school_types.findAll("li", {"data-testid": "fe-co-school-catchment-school"})
+
+            for school in school_types:
+                schools_info.append(school.text)
+        
+        property_metadata[property_url]['school_info'] = schools_info
+        
         # rooms
         property_metadata[property_url]['rooms'] = [
             re.findall(r'\d+\s[A-Za-z]+', feature.text)[0] for feature in rooms
@@ -81,9 +121,6 @@ for property_url in pbar:
             if 'Parking' in feature.text
         ]
 
-        property_metadata[property_url]['desc'] = re \
-            .sub(r'<br\/>', '\n', str(bs_object.find("p"))) \
-            .strip('</p>')
         success_count += 1
         
     except AttributeError:
@@ -92,5 +129,6 @@ for property_url in pbar:
     pbar.set_description(f"{(success_count/total_count * 100):.0f}% successful")
 
 # output to example json in data/raw/
-with open('./data/raw/example.json', 'w') as f:
+with open('./data/landing/example.json', 'w') as f:
     dump(property_metadata, f)
+
