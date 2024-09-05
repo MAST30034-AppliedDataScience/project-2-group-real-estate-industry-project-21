@@ -1,14 +1,19 @@
-
+# Real Estate Consulting Project
 ## Minutes: 05/09/2024 14:15
 
 **Group Members:** Anshan, Jenny, Vivian, Zirui (Eddie)
 
 **Agenda**
-- Finish scraping data from domain
-- Automate downloading of external data
-- Download external datasets
+- Finished initial visualisation of suburbs
+- Finished scraping data from domain
+- Automated downloading of external data
+- Decided not to scrape school data from domain, scrape from somewhere else
 
-**Notes**
-- Just scraping property data from domain isn't enough, need to also scrape historical data (links on LMS)
+**To-do**
+- Anshan: download/scrape historical data (links on LMS)
+- Vivian: continue downloading external data (start with ones listed on project spec)
+- Jenny: begin data cleaning
+- Eddie: continue looking for data/features
+- Begin looking into Open Route Service API
 
-**Signed:**
+**Signed:** Anshan, Jenny, Vivian, Zirui
