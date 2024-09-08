@@ -125,7 +125,10 @@ for property_url in pbar:
     pbar.set_description(f"{(success_count/total_count * 100):.0f}% successful")
 
 # output to example json in data/raw/
-with open('./data/landing/example.json', 'w') as f:
+with open('./data/landing/domain_data.json', 'w') as f:
     dump(property_metadata, f)
+    
+    
+
 
 
