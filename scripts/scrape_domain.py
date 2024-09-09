@@ -64,6 +64,7 @@ while True:
             url_links.append(link['href'])
     
     page += 1 
+    break
 
 # for each url, scrape some metadata
 pbar = tqdm(url_links[1:])
