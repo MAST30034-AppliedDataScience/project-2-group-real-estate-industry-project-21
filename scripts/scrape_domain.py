@@ -9,6 +9,7 @@ Edited and Debugged with ChatGPT - AAT
 """
 # built-in imports
 import re
+import csv
 from json import dump
 from tqdm import tqdm
 
@@ -19,6 +20,18 @@ from urllib.error import URLError, HTTPError
 from bs4 import BeautifulSoup
 from urllib.request import urlopen, Request 
 
+# Replace 'your_file.csv' with the path to your actual CSV file
+file_path = './data/landing/Mel_Metro_suburbs_Postcode.csv'
+
+# Initialize an empty list to store the rows
+list_of_suburbs = []
+
+# Open and read the CSV file
+with open(file_path, 'r') as file:
+    csv_reader = csv.reader(file, delimiter=',')
+    for row in csv_reader:
+        list_of_suburbs.append(row)
+        
 # constants
 BASE_URL = "https://www.domain.com.au"
 # N_PAGES = range(1, 5) # update this to your liking
@@ -27,47 +40,52 @@ BASE_URL = "https://www.domain.com.au"
 url_links = []
 property_metadata = defaultdict(dict)
 
-# generate list of urls to visit
-page = 1
-while True:
-
-    try: 
-        # Try the request... if it works amazo... 
-        url = BASE_URL + f"/rent/melbourne-region-vic/?sort=price-desc&page={page}"
-        print(f"Visiting {url}")
-        request = urlopen(Request(url, headers={'User-Agent':"PostmanRuntime/7.6.0"}))
-
-    except HTTPError as e:
-        print(f"HTTP Error on page {page}")
-        break  # Stop the loop when an HTTP error occurs
-    except URLError as e:
-        print(f"URL Error on page {page}")
-        break  # Stop the loop when a URL error occurs
+for suburb in list_of_suburbs[1:]: 
     
-    bs_object = BeautifulSoup(request, "lxml")
+    postcode = suburb[0]
+    suburb_name = suburb[1].lower().replace(" ", "-")
 
-    # find the unordered list (ul) elements which are the results, then
-    # find all href (a) tags that are from the base_url website.
-    index_links = bs_object \
-        .find(
-            "ul",
-            {"data-testid": "results"}
-        ) \
-        .findAll(
-            "a",
-            href=re.compile(f"{BASE_URL}/*") # the `*` denotes wildcard any
-        )
+    # generate list of urls to visit
+    page = 1
+    while True:
 
-    for link in index_links:
-        # if its a property address, add it to the list
-        if 'address' in link['class']:
-            url_links.append(link['href'])
-    
-    page += 1 
+        try: 
+            # Try the request... if it works amazo... 
+            url = BASE_URL + f"/rent/{suburb_name}-vic-{postcode}/?sort=suburb-asc&page={page}"
+            print(f"Visiting {url}")
+            request = urlopen(Request(url, headers={'User-Agent':"PostmanRuntime/7.6.0"}))
+
+        except HTTPError as e:
+            print(f"HTTP Error on page {page}")
+            break  # Stop the loop when an HTTP error occurs
+        except URLError as e:
+            print(f"URL Error on page {page}")
+            break  # Stop the loop when a URL error occurs
+        
+        bs_object = BeautifulSoup(request, "lxml")
+
+        # find the unordered list (ul) elements which are the results, then
+        # find all href (a) tags that are from the base_url website.
+        index_links = bs_object \
+            .find(
+                "ul",
+                {"data-testid": "results"}
+            ) \
+            .findAll(
+                "a",
+                href=re.compile(f"{BASE_URL}/*") # the `*` denotes wildcard any
+            )
+
+        for link in index_links:
+            # if its a property address, add it to the list
+            if 'address' in link['class']:
+                url_links.append(link['href'])
+        
+        page += 1  
+        break
     break
-
 # for each url, scrape some metadata
-pbar = tqdm(url_links[1:])
+pbar = tqdm(url_links[0:])
 success_count, total_count = 0, 0
 for property_url in pbar:
     bs_object = BeautifulSoup(urlopen(Request(property_url, headers={'User-Agent':"PostmanRuntime/7.6.0"})), "lxml")
