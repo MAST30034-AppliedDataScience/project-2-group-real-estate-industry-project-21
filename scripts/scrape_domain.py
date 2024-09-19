@@ -21,7 +21,7 @@ from bs4 import BeautifulSoup
 from urllib.request import urlopen, Request 
 
 # Replace 'your_file.csv' with the path to your actual CSV file
-file_path = './data/landing/Mel_Metro_suburbs_Postcode.csv'
+file_path = './data/landing/final.csv'
 
 # Initialize an empty list to store the rows
 list_of_suburbs = []
@@ -42,8 +42,8 @@ property_metadata = defaultdict(dict)
 
 for suburb in list_of_suburbs[1:]: 
     
-    postcode = suburb[0]
-    suburb_name = suburb[1].lower().replace(" ", "-")
+    suburb_name = suburb[0].lower().replace(" ", "-")
+    postcode = suburb[1]
 
     # generate list of urls to visit
     page = 1
@@ -82,8 +82,7 @@ for suburb in list_of_suburbs[1:]:
                 url_links.append(link['href'])
         
         page += 1  
-        break
-    break
+
 # for each url, scrape some metadata
 pbar = tqdm(url_links[0:])
 success_count, total_count = 0, 0
