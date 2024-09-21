@@ -80,7 +80,10 @@ for suburb in list_of_suburbs[1:]:
             for link in index_links:
                 # if its a property address, add it to the list
                 if 'address' in link['class']:
-                    url_links.append(link['href'])
+                    
+                    # Make sure that it doesnt add duplicates
+                    if link not in url_links:
+                        url_links.append(link['href'])
             
             page += 1 
         
@@ -88,6 +91,9 @@ for suburb in list_of_suburbs[1:]:
         except AttributeError:
             print(f"Issue with {url}") 
             break
+
+# The number of properties scraped... 
+print(f"The number of properties scraped is {len(url_links)}\n")
 
 # for each url, scrape some metadata
 pbar = tqdm(url_links[0:])
