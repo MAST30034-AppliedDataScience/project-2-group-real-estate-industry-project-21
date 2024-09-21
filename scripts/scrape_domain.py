@@ -21,7 +21,7 @@ from bs4 import BeautifulSoup
 from urllib.request import urlopen, Request 
 
 # Replace 'your_file.csv' with the path to your actual CSV file
-file_path = './data/landing/final.csv'
+file_path = './data/landing/Mel_Metro_Postcodes.csv'
 
 # Initialize an empty list to store the rows
 list_of_suburbs = []
@@ -42,8 +42,8 @@ property_metadata = defaultdict(dict)
 
 for suburb in list_of_suburbs[1:]: 
     
-    suburb_name = suburb[0].lower().replace(" ", "-")
-    postcode = suburb[1]
+    suburb_name = suburb[1].lower().replace(" ", "-")
+    postcode = suburb[0]
 
     # generate list of urls to visit
     page = 1
@@ -51,7 +51,7 @@ for suburb in list_of_suburbs[1:]:
 
         try: 
             # Try the request... if it works amazo... 
-            url = BASE_URL + f"/rent/{suburb_name}-vic-{postcode}/?ssubs=0&sort=suburb-asc&page={page}"
+            url = BASE_URL + f"/rent/?ssubs=0&sort=suburb-asc&postcode={postcode}&page={page}"
             print(f"Visiting {url}")
             request = urlopen(Request(url, headers={'User-Agent':"PostmanRuntime/7.6.0"}))
 
