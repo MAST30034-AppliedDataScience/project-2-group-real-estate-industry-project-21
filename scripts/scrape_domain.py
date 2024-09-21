@@ -51,7 +51,7 @@ for suburb in list_of_suburbs[1:]:
 
         try: 
             # Try the request... if it works amazo... 
-            url = BASE_URL + f"/rent/{suburb_name}-vic-{postcode}/?sort=suburb-asc&page={page}"
+            url = BASE_URL + f"/rent/{suburb_name}-vic-{postcode}/?ssubs=0&sort=suburb-asc&page={page}"
             print(f"Visiting {url}")
             request = urlopen(Request(url, headers={'User-Agent':"PostmanRuntime/7.6.0"}))
 
@@ -78,13 +78,12 @@ for suburb in list_of_suburbs[1:]:
                 )
 
             for link in index_links:
+                
                 # if its a property address, add it to the list
                 if 'address' in link['class']:
                     
-                    # Make sure that it doesnt add duplicates
-                    if link not in url_links:
-                        url_links.append(link['href'])
-            
+                    url_links.append(link['href'])
+                        
             page += 1 
         
         # if there is an issue with the page, then break out of the loop
