@@ -92,7 +92,7 @@ for suburb in list_of_suburbs[1:]:
 # The number of properties scraped... 
 print(f"The number of properties scraped is {len(url_links)}\n")
 
-# Save the links to a file 
-with open('./data/landing/property_urls.txt', 'w') as file:
-    for url in url_links:
-        file.write(url + '\n')
+# # Save the links to a file 
+# with open('./data/landing/property_urls.txt', 'w') as file:
+#     for url in url_links:
+#         file.write(url + '\n')
