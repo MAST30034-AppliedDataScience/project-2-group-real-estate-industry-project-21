@@ -1,7 +1,8 @@
 # Generic Real Estate Consulting Project
-Groups should generate their own suitable `README.md`.
 
-1. Run `scrape_domain.py` to scrape rental property data from https://www.domain.com.au/.
+1. Download the postcode dataset from landing folder first [Download the dataset](data/landing/Mel_Metro_Postcodes.csv.csv)
+2. Run `scrape_domain_links.py` to scrape the links of all the rental properties we will consider from https://www.domain.com.au/.
+3. Run `scrape_domain_properties.py` to scrape the metadata of the properties we scraped from `scrape_domain_links.py`
 
 ## Processing External Datasets
 1. `notebooks/ext_download.ipynb` downloads external datasets into `data/landing`.
