@@ -20,7 +20,7 @@ from bs4 import BeautifulSoup
 from urllib.request import urlopen, Request 
 
 # Replace 'your_file.csv' with the path to your actual CSV file
-file_path = './data/landing/Mel_Metro_Postcodes.csv'
+file_path = './data/raw/Mel_Metro_Postcodes.csv'
 
 # Initialize an empty list to store the rows
 list_of_suburbs = []
