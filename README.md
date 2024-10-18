@@ -64,14 +64,19 @@ Ensure you have all necessary Python packages installed by using the `requiremen
 To replicate the analysis and run the models, please follow the steps below in the order specified:
 
 ### Data Scraping
-1. Run `scrape_domain_links.py`.
-2. Run `scrape_domain_properties.py`.
+1. Run `postcodes_suburbs.py`.
+2. Run `scrape_domain_links.py`.
+3. Run `scrape_domain_properties.py`.
 
 ### Data Preprocessing
 1. Run `notebooks/preprocess_domain.ipynb`.
-2. Run `notebooks/ext_download.ipynb`.
-3. Run `notebooks/ext_preprocess.ipynb`.
-4. Run `notebooks/ext_curate.ipynb`.
+2. Run `properties_and_coodinates.py`.
+3. Run `overpass_server.py`.
+4. Run `“nominatim_server.py`.
+5. Run `openrouteservice_server.py`.
+6. Run `notebooks/ext_download.ipynb`.
+7. Run `notebooks/ext_preprocess.ipynb`.
+8. Run `notebooks/ext_curate.ipynb`.
 
 ### Exploratory Data Analysis (EDA) and Visualization
 1. Run `notebooks/analysis.ipynb`.
