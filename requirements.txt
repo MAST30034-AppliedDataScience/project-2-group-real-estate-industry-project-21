@@ -1,6 +1,8 @@
-pyspark
+folium
+geopandas
 matplotlib
-seaborn
 numpy
 pandas
 plotly
+pyspark
+seaborn
