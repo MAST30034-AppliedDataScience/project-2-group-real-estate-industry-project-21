@@ -11,7 +11,8 @@ The primary goal of this project is to analyze rental property data and develop 
 
 ### Data Scraping
 1. **Download Postcode Dataset**
-   - Download the postcode dataset from the landing folder: [Download the dataset](data/landing/Mel_Metro_Postcodes.csv.csv).
+   - 1.Download the complete dataset of Australian postcodes_suburb “australian_postcodes.csv” into  `data/landing` from https://github.com/matthewproctor/australianpostcodesb
+   - 2.Run `postcodes_suburbs.py`:Filter the dataset for the unique set of postcode_suburb name for Metro Melbourne Areas.based on the Victoria State Government tourism guidance(https://www.tourismnortheast.com.au/wp-content/uploads/sites/54/Metro-Melb-Postcodes-Factsheet.pdf),saving the output into `data/raw`.
 
 2. **Scrape Domain Links**
    - Run `scrape_domain_links.py` to scrape the links of all rental properties from https://www.domain.com.au.
@@ -27,6 +28,17 @@ The primary goal of this project is to analyze rental property data and develop 
    - Run `notebooks/ext_download.ipynb`: Downloads external datasets into `data/landing`.
    - Run `notebooks/ext_preprocess.ipynb`: Performs column renaming and basic data type conversions on landing data, saving the output into `data/raw`.
    - Run `notebooks/ext_curate.ipynb`: Filters relevant raw data and combines datasets for analysis and modeling, saving the output into `data/curated`.
+   - Run `properties_and_coodinates.py`: Get the coordinates for every property we scrapped,saving the output into `data/landing`.
+   - Run `overpass_server.py`: Get Coordinates for Properties Amenities using Overpass local server,saving the output into `data/raw`.
+   - Run `“nominatim_server.py`:Fix missing coordinates for nearby amenities using Nominatim local server,saving the output into `data/raw`.
+   - Run `openrouteservice_server.py`:Calculate Counts, Distance,Travel Time between amenities and properties and get the average of those in surbubs using Openrouteservice local server,saving the outputs into `data/raw`.
+
+
+Calculate Counts, Distance,Travel Time Using Openrouteservice Local Server
+1.Run the “openrouteservice_server.py” with “properties_stats.csv”,
+The outputs are “properties_stats_completed.csv” and “suburbs_stats.csv” to get total counts, distance, travel time between every property and its amenities and those of average in every suburb.
+Note:Previously missing unfindable coordinates cause the calculation errors for some properties, that are handled by calculating the average within their suburbs.
+
 
 ### Exploratory Data Analysis (EDA) and Visualization
 1. **EDA and Analysis**
